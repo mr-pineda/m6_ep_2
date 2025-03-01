@@ -37,57 +37,33 @@ Trabajo práctico para desarrollar una página web de hospital que debe contener
 
 ## TO-DO (Rúbrica):
 
-1. Creación del Manifiesto (1.5 puntos)
+1. Implementación de Almacenamiento Web (2 puntos)
 
-   - [x] Crea un archivo de manifiesto para la aplicación web del hospital que incluya los siguientes elementos:
-     - [x] Nombre de la aplicación.
-     - [x] Iconos en varias resoluciones para diferentes dispositivos.
-     - [x] Color de fondo y color del tema.
-     - [x] Modo de pantalla (fullscreen o standalone).
+   - [ ] Configura un sistema de almacenamiento para la PWA del hospital usando **LocalStorage** o **SessionStorage**:
 
-   _El archivo de manifiesto es creado por VitePWA al momento de hacer la build de la aplicación, con los datos entregados en el archivo
-   **vite.config.ts**. Este se puede ver en **/dist/manifest.webmanifest**_
+     - [ ] Almacena datos de usuario o información importante para que persista incluso después de recargar la página.
+     - [ ] Asegúrate de que el almacenamiento se realice de manera eficiente y que los datos almacenados puedan ser recuperados correctamente.
 
-   ***
+   **Tip**: Considera almacenar preferencias del usuario, configuración de la sesión, o cualquier dato que deba ser accesible en diferentes sesiones.
 
-2. Registro de un Service Worker Básico (2 puntos)
+2. Implementación de IndexedDB (2 puntos)
 
-   - [x] Registra un Service Worker para la aplicación del hospital, segurando que:
-   - [x] Esté registrado y activado correctamente.
-   - [x] Se realice precaching de los archivos principales (HTML, CSS, JavaScript).
-   - [x] La aplicación pueda funcionar en modo offline gracias al Service Worker.
+   - [ ] Implementa una base de datos con IndexedDB o una biblioteca como PouchDB para manejar datos más complejos o a mayor escala:
+     - [ ] Almacena en **IndexedDB** datos relevantes como información de citas, doctores o pacientes del hospital.
+     - [ ] Asegúrate de que los datos sean almacenados y recuperados correctamente de **IndexedDB**.
 
-   _El serviceworker está ubicado en **/src/sw.ts**. Para crear un serviceworker correctamente y pueda ser transpilado hay que indicar en el **vite.config.ts** que se usará un serviceWorker custom, la ubicación y el nombre del archivo_
+   **Tip**: Usa **IndexedDB** cuando necesites manejar datos más complejos o voluminosos que no sean adecuados para **LocalStorage**.
 
-   ***
+3. Despliegue y Configuración del Service Worker Personalizado (1.5 puntos)
 
-```ts
- export default defineConfig({
-    plugins: [
-       react(),
-       VitePWA({
-          srcDir: 'src', // Localización del archivo
-          filename: 'sw.ts', // Nombre del archivo
-          strategies: 'injectManifest', // "injectManifest" indica que se usara un SW custom
-          ...
-       }),
-    ],
- });
-```
+   - [x] Personaliza y despliega un **Service Worker** que gestione los archivos de caché y soporte el almacenamiento offline:
+     - [ ] Asegúrate de que el **Service Worker** funcione adecuadamente para manejar la caché de los archivos y el almacenamiento en **LocalStorage** o **IndexedDB**.
+     - [x] Verifica que la PWA esté desplegada correctamente y sea accesible offline.
 
-3. Implementación de Estrategias de Almacenamiento en Caché (2
-   puntos)
+4. Pruebas de Rendimiento con Lighthouse (1.5 puntos)
 
-   - [x] Implementa al menos una estrategia de almacenamiento en caché adecuada para la aplicación:
-     - [x] Stale-While-Revalidate: Sirve el contenido desde la caché, pero actualiza en segundo plano.
+   - [ ] Ejecuta **Lighthouse** para validar el rendimiento de la PWA:
+     - [ ] Verifica que la aplicación sea **instalable**, funcione **offline**, y tenga un **buen rendimiento** en términos de velocidad y accesibilidad.
+     - [ ] Revisa el informe de Lighthouse y mejora los aspectos recomendados por la herramienta.
 
-   _Se implemento en el archivo **/src/sw.ts**_
-
-   ***
-
-4. Pruebas de Funcionamiento Offline y Validación con Lighthouse
-   (1.5 puntos)
-
-   - [ ] Verifica que la aplicación funcione en modo offline utilizando Lighthouse para evaluar el rendimiento de la PWA:
-     - [ ] Ejecuta Lighthouse para generar un informe que evalúe si la aplicación cumple con los criterios de PWA (instalabilidad, funcionamiento offline y rendimiento).
-     - [ ] Asegúrate de que el informe refleje una implementación básica funcional de PWA.
+   **Tip**: Asegúrate de que la calificación de **Lighthouse** sea positiva, con un enfoque en rendimiento y accesibilidad.
