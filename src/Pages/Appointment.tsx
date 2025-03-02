@@ -60,65 +60,59 @@ const Appointment = () => {
     setCurrentDoctor(doctorsData[0]); //Selecciona el primer doctor por defecto
   }, [doctorsData]); // El userEffect se ejecuta cuando se actualiza doctorsData
 
+  const initializeHover = (
+    ref: React.RefObject<HTMLInputElement>[],
+    setStates: React.Dispatch<React.SetStateAction<boolean>>[]
+  ) => {
+    ref.forEach((inputRef, idx) => {
+      const setHoverState = setStates[idx];
+      inputRef.current?.addEventListener('mouseenter', () => {
+        setHoverState(true);
+      });
+      inputRef.current?.addEventListener('mouseleave', () => {
+        setHoverState(false);
+      });
+    });
+  };
+
+  const removeHover = (
+    ref: React.RefObject<HTMLInputElement>[],
+    setStates: React.Dispatch<React.SetStateAction<boolean>>[]
+  ) => {
+    ref.forEach((inputRef, idx) => {
+      const setHoverState = setStates[idx];
+      inputRef.current?.removeEventListener('mouseenter', () => {
+        setHoverState(true);
+      });
+      inputRef.current?.removeEventListener('mouseleave', () => {
+        setHoverState(false);
+      });
+    });
+  };
+
   useEffect(() => {
     doctorInputRef.current?.focus();
-    doctorInputRef.current?.addEventListener('mouseenter', () => {
-      setDoctorHover(true);
-    });
-    doctorInputRef.current?.addEventListener('mouseleave', () => {
-      setDoctorHover(false);
-    });
+    initializeHover(
+      [doctorInputRef, hourInputRef, dayInputRef, serviceInputRef],
+      [setDoctorHover, setHourHover, setDayHover, setServiceHover]
+    );
 
-    hourInputRef.current?.addEventListener('mouseenter', () => {
-      setHourHover(true);
-    });
-    hourInputRef.current?.addEventListener('mouseleave', () => {
-      setHourHover(false);
-    });
-
-    dayInputRef.current?.addEventListener('mouseenter', () => {
-      setDayHover(true);
-    });
-    dayInputRef.current?.addEventListener('mouseleave', () => {
-      setDayHover(false);
-    });
-
-    serviceInputRef.current?.addEventListener('mouseenter', () => {
-      console.log('service hover');
-      setServiceHover(true);
-    });
-    serviceInputRef.current?.addEventListener('mouseleave', () => {
-      setServiceHover(false);
-    });
+    const lastAppointment = localStorage.getItem('last_appointment');
+    if (lastAppointment) {
+      const { doctor, day, hour } = JSON.parse(lastAppointment);
+      alert(
+        `Se encontró una reserva previa:
+        Última reserva de hora con Doctor: ${doctor.name}
+        Día: ${day}
+        Hora: ${hour}`
+      );
+    }
 
     return () => {
-      doctorInputRef.current?.removeEventListener('mouseenter', () => {
-        setDoctorHover(true);
-      });
-      doctorInputRef.current?.removeEventListener('mouseleave', () => {
-        setDoctorHover(false);
-      });
-
-      hourInputRef.current?.removeEventListener('mouseenter', () => {
-        setHourHover(true);
-      });
-      hourInputRef.current?.removeEventListener('mouseleave', () => {
-        setHourHover(false);
-      });
-
-      dayInputRef.current?.removeEventListener('mouseenter', () => {
-        setDayHover(true);
-      });
-      dayInputRef.current?.removeEventListener('mouseleave', () => {
-        setDayHover(false);
-      });
-
-      serviceInputRef.current?.removeEventListener('mouseenter', () => {
-        setServiceHover(true);
-      });
-      serviceInputRef.current?.removeEventListener('mouseleave', () => {
-        setServiceHover(false);
-      });
+      removeHover(
+        [doctorInputRef, hourInputRef, dayInputRef, serviceInputRef],
+        [setDoctorHover, setHourHover, setDayHover, setServiceHover]
+      );
     };
   }, []);
 
@@ -334,13 +328,23 @@ const Appointment = () => {
           </div>
           <button
             className='rounded-lg bg-sky-700 p-3 font-bold text-white'
-            onClick={() =>
-              console.log(
+            onClick={() => {
+              alert(
                 `Reserva de Hora con Doctor: ${currentDoctor?.name}
         Día: ${day}
-        Hora: ${hour}`,
-              )
-            }
+        Hora: ${hour}
+        
+        Ingrese nuevamente a esta página para ver su reserva`
+              );
+              localStorage.setItem(
+                'last_appointment',
+                JSON.stringify({
+                  doctor: currentDoctor,
+                  day,
+                  hour,
+                })
+              );
+            }}
           >
             Agendar Hora
           </button>

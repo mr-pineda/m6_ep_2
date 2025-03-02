@@ -39,9 +39,9 @@ Trabajo práctico para desarrollar una página web de hospital que debe contener
 
 1. Implementación de Almacenamiento Web (2 puntos)
 
-   - [ ] Configura un sistema de almacenamiento para la PWA del hospital usando **LocalStorage** o **SessionStorage**:
+   - [x] Configura un sistema de almacenamiento para la PWA del hospital usando **LocalStorage** o **SessionStorage**:
 
-     - [ ] Almacena datos de usuario o información importante para que persista incluso después de recargar la página.
+     - [x] Almacena datos de usuario o información importante para que persista incluso después de recargar la página.
      - [ ] Asegúrate de que el almacenamiento se realice de manera eficiente y que los datos almacenados puedan ser recuperados correctamente.
 
    **Tip**: Considera almacenar preferencias del usuario, configuración de la sesión, o cualquier dato que deba ser accesible en diferentes sesiones.
